@@ -44,7 +44,9 @@ public:
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
 
-private:
+signals:
+	void removingAgeGroup(Pointer ptr);
+	void removingAllAgeGroups(void);
 };
 
 #endif // AGEGROUPTABLE_HPP

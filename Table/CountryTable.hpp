@@ -44,7 +44,9 @@ public:
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
 
-private:
+signals:
+	void removingCountry(Pointer ptr);
+	void removingAllCoutnries(void);
 };
 
 #endif // COUNTRYTABLE_HPP

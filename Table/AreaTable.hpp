@@ -44,7 +44,9 @@ public:
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
 
-private:
+signals:
+	void removingArea(Pointer ptr);
+	void removingAllAreas(void);
 };
 
 #endif // AREATABLE_HPP

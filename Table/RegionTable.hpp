@@ -44,7 +44,9 @@ public:
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
 
-private:
+signals:
+	void removnigRegion(Pointer ptr);
+	void removingAllRegions(void);
 };
 
 #endif // REGIONTABLE_HPP

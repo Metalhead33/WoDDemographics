@@ -44,7 +44,9 @@ public:
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
 
-private:
+signals:
+	void removingReligion(Pointer ptr);
+	void removingAllReligions(void);
 };
 
 #endif // RELIGIONTABLE_HPP

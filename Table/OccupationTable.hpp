@@ -44,7 +44,9 @@ public:
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
 
-private:
+signals:
+	void removingOccupation(Pointer ptr);
+	void removingAllOccupations(void);
 };
 
 #endif // OCCUPATIONTABLE_HPP

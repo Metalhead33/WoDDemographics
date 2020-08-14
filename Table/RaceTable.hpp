@@ -44,7 +44,9 @@ public:
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
 
-private:
+signals:
+	void removingRace(Pointer ptr);
+	void removingAllRaces(void);
 };
 
 #endif // RACETABLE_HPP
