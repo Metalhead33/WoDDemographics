@@ -32,6 +32,34 @@ private slots:
 
 	void on_ageGroupsLoadFromJSON_clicked();
 
+	void on_popsSave2JSON_clicked();
+
+	void on_popsLoadFromJSON_clicked();
+
+	void on_racesSave2JSON_clicked();
+
+	void on_racesLoadFromJSON_clicked();
+
+	void on_religionsSave2JSON_clicked();
+
+	void on_reigionsLoadFromJSON_clicked();
+
+	void on_occupationsSave2JSON_clicked();
+
+	void on_occupationsLoadFromJSON_clicked();
+
+	void on_countriesSave2JSON_clicked();
+
+	void on_countriesLoadFromJSON_clicked();
+
+	void on_regionsSave2JSON_clicked();
+
+	void on_regionsLoadFromJSON_clicked();
+
+	void on_areasSave2JSON_clicked();
+
+	void on_areasLoadFromJSON_clicked();
+
 private:
 	Ui::MainWindow *ui;
 	AgeGroupTable agegroupz;

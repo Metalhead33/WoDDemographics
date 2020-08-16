@@ -4,6 +4,7 @@
 #include <QErrorMessage>
 #include <QCborMap>
 #include <QErrorMessage>
+#include <QCoreApplication>
 
 namespace Util
 {
@@ -28,7 +29,7 @@ void saveToJSON(const QObject &obj, QJsonObject& json){
 
 void saveJson(const QJsonDocument &json)
 {
-	auto fileName = QFileDialog::getSaveFileName(nullptr,"Open JSON file",QString(),QStringLiteral("JSON files and CBOR binaries ( *.json *.cbor )"));
+	auto fileName = QFileDialog::getSaveFileName(nullptr,"Open JSON file",QCoreApplication::applicationDirPath(),QStringLiteral("JSON files and CBOR binaries ( *.json *.cbor )"));
 	if(fileName.isNull() || fileName.isEmpty()) return;
 	bool isBinary;
 	if(fileName.endsWith(".cbor")) isBinary = true;
@@ -49,7 +50,7 @@ void saveJson(const QJsonDocument &json)
 
 void loadJson(QJsonDocument &json)
 {
-	auto fileName = QFileDialog::getOpenFileName(nullptr,"Open JSON file",QString(),QStringLiteral("JSON files and CBOR binaries ( *.json *.cbor )"));
+	auto fileName = QFileDialog::getOpenFileName(nullptr,"Open JSON file",QCoreApplication::applicationDirPath(),QStringLiteral("JSON files and CBOR binaries ( *.json *.cbor )"));
 	if(fileName.isNull() || fileName.isEmpty()) return;
 	bool isBinary;
 	if(fileName.endsWith(".cbor")) isBinary = true;
