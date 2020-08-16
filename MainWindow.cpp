@@ -69,3 +69,87 @@ void MainWindow::on_ageGroupsLoadFromJSON_clicked()
 	QJsonDocument doc = Util::loadJson();
 	agegroupz.loadFromJSON(doc.array());
 }
+
+void MainWindow::on_popsSave2JSON_clicked()
+{
+	QJsonDocument doc(pops.saveToJSON());
+	Util::saveJson(doc);
+}
+
+void MainWindow::on_popsLoadFromJSON_clicked()
+{
+	QJsonDocument doc = Util::loadJson();
+	pops.loadFromJSON(doc.array(),areas,races,religions,occupations,agegroupz);
+}
+
+void MainWindow::on_racesSave2JSON_clicked()
+{
+	QJsonDocument doc(races.saveToJSON());
+	Util::saveJson(doc);
+}
+
+void MainWindow::on_racesLoadFromJSON_clicked()
+{
+	QJsonDocument doc = Util::loadJson();
+	races.loadFromJSON(doc.array());
+}
+
+void MainWindow::on_religionsSave2JSON_clicked()
+{
+	QJsonDocument doc(religions.saveToJSON());
+	Util::saveJson(doc);
+}
+
+void MainWindow::on_reigionsLoadFromJSON_clicked()
+{
+	QJsonDocument doc = Util::loadJson();
+	religions.loadFromJSON(doc.array());
+}
+
+void MainWindow::on_occupationsSave2JSON_clicked()
+{
+	QJsonDocument doc(occupations.saveToJSON());
+	Util::saveJson(doc);
+}
+
+void MainWindow::on_occupationsLoadFromJSON_clicked()
+{
+	QJsonDocument doc = Util::loadJson();
+	occupations.loadFromJSON(doc.array());
+}
+
+void MainWindow::on_countriesSave2JSON_clicked()
+{
+	QJsonDocument doc(countries.saveToJSON());
+	Util::saveJson(doc);
+}
+
+void MainWindow::on_countriesLoadFromJSON_clicked()
+{
+	QJsonDocument doc = Util::loadJson();
+	countries.loadFromJSON(doc.array());
+}
+
+void MainWindow::on_regionsSave2JSON_clicked()
+{
+	QJsonDocument doc(regions.saveToJSON());
+	Util::saveJson(doc);
+}
+
+void MainWindow::on_regionsLoadFromJSON_clicked()
+{
+	QJsonDocument doc = Util::loadJson();
+	regions.loadFromJSON(doc.array(),countries);
+}
+
+void MainWindow::on_areasSave2JSON_clicked()
+{
+	QJsonDocument doc(areas.saveToJSON());
+	Util::saveJson(doc);
+}
+
+void MainWindow::on_areasLoadFromJSON_clicked()
+{
+	QJsonDocument doc = Util::loadJson();
+	areas.loadFromJSON(doc.array(),regions);
+}
