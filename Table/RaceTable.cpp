@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 RaceTable::RaceTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastIndex(0)
 {
 }
 
@@ -77,7 +77,7 @@ bool RaceTable::setData(const QModelIndex &index, const QVariant &value, int rol
 			emit dataChanged(index, index, QVector<int>() << role);
 		} else {
 			beginInsertRows(QModelIndex(), index.row(), index.row());
-			Pointer tmp(new Race(entries.size()+1));
+			Pointer tmp(new Race(++lastIndex));
 			tmp->setRaceName(str);
 			entries.push_back(tmp);
 			endInsertRows();
@@ -120,6 +120,7 @@ bool RaceTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void RaceTable::clear()
 {
+	lastIndex = 0;
 	if(!entries.empty() ) {
 	emit removingAllRaces();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -133,7 +134,9 @@ void RaceTable::loadFromJSON(const QJsonArray &json)
 	clear();
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
-		entries.push_back(Pointer( new Race(it.toObject() )) );
+		Pointer tmp = Pointer( new Race(it.toObject() ));
+		lastIndex = std::max(lastIndex,tmp->getRaceID());
+		entries.push_back(tmp);
 	}
 	endInsertRows();
 }

@@ -12,6 +12,7 @@ class RegionTable : public QAbstractTableModel, public RegionResolver
 	Q_OBJECT
 private:
 	QList<Pointer> entries;
+	int lastIndex;
 public:
 	explicit RegionTable(QObject *parent = nullptr);
 	Pointer resolve(int id) const override;
