@@ -23,7 +23,14 @@ QVariant RaceTable::headerData(int section, Qt::Orientation orientation, int rol
 		case Qt::Orientation::Vertical:
 			return (section < entries.size()) ? entries[section]->getRaceID() : QVariant();
 		case Qt::Orientation::Horizontal:
-			return (!section) ? tr("Race") : QVariant();
+			switch (section) {
+			case 0:
+				return tr("Race Name");
+			case 1:
+				return tr("Race Name in Hungarian");
+			default:
+				return QVariant();
+			}
 		}
 	}
 	return QVariant();
@@ -51,9 +58,9 @@ QVariant RaceTable::data(const QModelIndex &index, int role) const
 	if (!index.isValid())
 		return QVariant();
 	if(role == MH::PointerRole && index.row() < entries.size()) return QVariant::fromValue(entries[index.row()] );
-	if(role == Qt::DisplayRole && index.row() < entries.size() && !index.column())
+	if(role == Qt::DisplayRole && index.row() < entries.size())
 	{
-		switch (index.row()) {
+		switch (index.column()) {
 		case 0:
 			return entries[index.row()]->getRaceName();
 		case 1:
