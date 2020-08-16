@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 AgeGroupTable::AgeGroupTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastId(0)
 {
 }
 
@@ -71,7 +71,7 @@ bool AgeGroupTable::setData(const QModelIndex &index, const QVariant &value, int
 			emit dataChanged(index, index, QVector<int>() << role);
 		} else {
 			beginInsertRows(QModelIndex(), index.row(), index.row());
-			Pointer tmp(new AgeGroup(entries.size()+1));
+			Pointer tmp(new AgeGroup(++lastId));
 			tmp->setAgeGroupName(str);
 			entries.push_back(tmp);
 			endInsertRows();
@@ -94,7 +94,7 @@ bool AgeGroupTable::insertRows(int row, int count, const QModelIndex &parent)
 	int nindex = row;
 	beginInsertRows(parent, row, row + count - 1);
 	for(int i = 0; i < count;++i) {
-		entries.insert(nindex,Pointer(new AgeGroup(nindex)) );
+		entries.insert(nindex,Pointer(new AgeGroup(++lastId)) );
 		++nindex;
 	}
 	endInsertRows();
@@ -120,6 +120,7 @@ signals:
 
 void AgeGroupTable::clear()
 {
+	lastId = 0;
 	if(!entries.empty() ) {
 	emit removingAllAgeGroups();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -134,6 +135,7 @@ void AgeGroupTable::loadFromJSON(const QJsonArray &json)
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
 		entries.push_back(Pointer( new AgeGroup(it.toObject() )) );
+		lastId = std::max(lastId,entries.back()->getAgeGroupID());
 	}
 	endInsertRows();
 }

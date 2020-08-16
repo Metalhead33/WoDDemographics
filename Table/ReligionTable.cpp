@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 ReligionTable::ReligionTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastId(0)
 {
 }
 
@@ -69,7 +69,7 @@ bool ReligionTable::setData(const QModelIndex &index, const QVariant &value, int
 			emit dataChanged(index, index, QVector<int>() << role);
 		} else {
 			beginInsertRows(QModelIndex(), index.row(), index.row());
-			Pointer tmp(new Religion(entries.size()+1));
+			Pointer tmp(new Religion(++lastId));
 			tmp->setReligionName(str);
 			entries.push_back(tmp);
 			endInsertRows();
@@ -92,7 +92,7 @@ bool ReligionTable::insertRows(int row, int count, const QModelIndex &parent)
 	int nindex = row;
 	beginInsertRows(parent, row, row + count - 1);
 	for(int i = 0; i < count;++i) {
-		entries.insert(nindex,Pointer(new Religion(nindex)) );
+		entries.insert(nindex,Pointer(new Religion(++lastId)) );
 		++nindex;
 	}
 	endInsertRows();
@@ -112,6 +112,7 @@ bool ReligionTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void ReligionTable::clear()
 {
+	lastId = 0;
 	if(!entries.empty() ) {
 	emit removingAllReligions();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -126,6 +127,7 @@ void ReligionTable::loadFromJSON(const QJsonArray &json)
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
 		entries.push_back(Pointer( new Religion(it.toObject() )) );
+		lastId = std::max(lastId,entries.back()->getReligionID());
 	}
 	endInsertRows();
 }

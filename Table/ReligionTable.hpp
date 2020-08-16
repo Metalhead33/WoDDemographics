@@ -12,7 +12,7 @@ class ReligionTable : public QAbstractTableModel, public ReligionResolver
 	Q_OBJECT
 private:
 	QList<Pointer> entries;
-	int lastIndex;
+	int lastId;
 public:
 	explicit ReligionTable(QObject *parent = nullptr);
 	Pointer resolve(int id) const override;

@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 OccupationTable::OccupationTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastId(0)
 {
 }
 
@@ -72,7 +72,7 @@ bool OccupationTable::setData(const QModelIndex &index, const QVariant &value, i
 			emit dataChanged(index, index, QVector<int>() << role);
 		} else {
 			beginInsertRows(QModelIndex(), index.row(), index.row());
-			Pointer tmp(new Occupation(entries.size()+1));
+			Pointer tmp(new Occupation(++lastId));
 			tmp->setOccupationName(str);
 			entries.push_back(tmp);
 			endInsertRows();
@@ -95,7 +95,7 @@ bool OccupationTable::insertRows(int row, int count, const QModelIndex &parent)
 	int nindex = row;
 	beginInsertRows(parent, row, row + count - 1);
 	for(int i = 0; i < count;++i) {
-		entries.insert(nindex,Pointer(new Occupation(nindex)) );
+		entries.insert(nindex,Pointer(new Occupation(++lastId)) );
 		++nindex;
 	}
 	endInsertRows();
@@ -115,6 +115,7 @@ bool OccupationTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void OccupationTable::clear()
 {
+	lastId = 0;
 	if(!entries.empty() ) {
 	emit removingAllOccupations();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -129,6 +130,7 @@ void OccupationTable::loadFromJSON(const QJsonArray &json)
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
 		entries.push_back(Pointer( new Occupation(it.toObject() )) );
+		lastId = std::max(lastId,entries.back()->getOccupationID());
 	}
 	endInsertRows();
 }
