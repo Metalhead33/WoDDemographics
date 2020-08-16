@@ -46,7 +46,7 @@ public:
 
 signals:
 	void removingCountry(Pointer ptr);
-	void removingAllCoutnries(void);
+	void removingAllCountries(void);
 };
 
 #endif // COUNTRYTABLE_HPP

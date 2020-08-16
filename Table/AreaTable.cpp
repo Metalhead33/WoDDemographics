@@ -95,9 +95,7 @@ bool AreaTable::setData(const QModelIndex &index, const QVariant &value, int rol
 			const QString str = value.toString();
 			if( (str.isNull() || str.isEmpty())) {
 				if(index.row() < entries.size()) {
-					beginRemoveRows(QModelIndex(), index.row(), index.row());
-					entries.removeAt(index.row());
-					endRemoveRows();
+					removeRows(index.row(),1);
 				}
 			} else if(index.row() < entries.size()) {
 				entries[index.row()]->setAreaName(str);
@@ -154,6 +152,7 @@ bool AreaTable::removeRows(int row, int count, const QModelIndex &parent)
 {
 	beginRemoveRows(parent, row, row + count - 1);
 	for(int i = 0; i < count; ++i) {
+		emit removingArea(entries[row]);
 		entries.removeAt(row);
 	}
 	endRemoveRows();
@@ -162,9 +161,12 @@ bool AreaTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void AreaTable::clear()
 {
+	if(!entries.empty()) {
+	emit removingAllAreas();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
 	entries.clear();
 	endRemoveRows();
+	}
 }
 
 void AreaTable::loadFromJSON(const QJsonArray &json, const RegionResolver &resolv)
@@ -189,4 +191,23 @@ QJsonArray AreaTable::saveToJSON() const
 	QJsonArray tmp;
 	saveToJSON(tmp);
 	return tmp;
+}
+
+void AreaTable::onRegionRemoved(QSharedPointer<Region> ptr)
+{
+	int i = 0;
+	int count = entries.size();
+	for(;i < count;) {
+		if(entries[i]->getRegion() == ptr)
+		{
+			removeRows(i,1);
+			--count;
+		}
+		else ++i;
+	}
+}
+
+void AreaTable::removeAllAreas()
+{
+	clear();
 }

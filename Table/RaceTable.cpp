@@ -70,9 +70,7 @@ bool RaceTable::setData(const QModelIndex &index, const QVariant &value, int rol
 	if (role == Qt::EditRole && !index.column()) {
 		if( (str.isNull() || str.isEmpty())) {
 			if(index.row() < entries.size()) {
-				beginRemoveRows(QModelIndex(), index.row(), index.row());
-				entries.removeAt(index.row());
-				endRemoveRows();
+				removeRows(index.row(),1);
 			}
 		} else if(index.row() < entries.size()) {
 			entries[index.row()]->setRaceName(str);
@@ -113,6 +111,7 @@ bool RaceTable::removeRows(int row, int count, const QModelIndex &parent)
 {
 	beginRemoveRows(parent, row, row + count - 1);
 	for(int i = 0; i < count; ++i) {
+		emit removingRace(entries[row]);
 		entries.removeAt(row);
 	}
 	endRemoveRows();
@@ -121,9 +120,12 @@ bool RaceTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void RaceTable::clear()
 {
+	if(!entries.empty() ) {
+	emit removingAllRaces();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
 	entries.clear();
 	endRemoveRows();
+	}
 }
 
 void RaceTable::loadFromJSON(const QJsonArray &json)

@@ -61,9 +61,7 @@ bool ReligionTable::setData(const QModelIndex &index, const QVariant &value, int
 	if (role == Qt::EditRole && !index.column()) {
 		if( (str.isNull() || str.isEmpty())) {
 			if(index.row() < entries.size()) {
-				beginRemoveRows(QModelIndex(), index.row(), index.row());
-				entries.removeAt(index.row());
-				endRemoveRows();
+				removeRows(index.row(),1);
 			}
 		} else if(index.row() < entries.size()) {
 			entries[index.row()]->setReligionName(str);
@@ -104,6 +102,7 @@ bool ReligionTable::removeRows(int row, int count, const QModelIndex &parent)
 {
 	beginRemoveRows(parent, row, row + count - 1);
 	for(int i = 0; i < count; ++i) {
+		emit removingReligion(entries[row]);
 		entries.removeAt(row);
 	}
 	endRemoveRows();
@@ -112,9 +111,12 @@ bool ReligionTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void ReligionTable::clear()
 {
+	if(!entries.empty() ) {
+	emit removingAllReligions();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
 	entries.clear();
 	endRemoveRows();
+	}
 }
 
 void ReligionTable::loadFromJSON(const QJsonArray &json)

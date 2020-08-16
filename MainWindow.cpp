@@ -17,6 +17,20 @@ MainWindow::MainWindow(QWidget *parent) :
 	  ui(new Ui::MainWindow), ageGroupsDelegate(0,&agegroupz), areasDelegate(0,&areas), countriesDelegate(0,&countries),
 	  racesDelegate(0, &races), religionsDelegate(0, &religions), regionsDelegate(0,&regions), occupationsDelegate(0,&occupations)
 {
+	QObject::connect(&agegroupz,&AgeGroupTable::removingAgeGroup,&pops,&PopTable::onAgeGroupRemoved);
+	QObject::connect(&agegroupz,&AgeGroupTable::removingAllAgeGroups,&pops,&PopTable::removeAllPops);
+	QObject::connect(&areas,&AreaTable::removingArea,&pops,&PopTable::onAreaRemoved);
+	QObject::connect(&areas,&AreaTable::removingAllAreas,&pops,&PopTable::removeAllPops);
+	QObject::connect(&races,&RaceTable::removingRace,&pops,&PopTable::onRaceRemoved);
+	QObject::connect(&races,&RaceTable::removingAllRaces,&pops,&PopTable::removeAllPops);
+	QObject::connect(&religions,&ReligionTable::removingReligion,&pops,&PopTable::onReligionRemoved);
+	QObject::connect(&religions,&ReligionTable::removingAllReligions,&pops,&PopTable::removeAllPops);
+	QObject::connect(&occupations,&OccupationTable::removingOccupation,&pops,&PopTable::onOccupationRemoved);
+	QObject::connect(&occupations,&OccupationTable::removingAllOccupations,&pops,&PopTable::removeAllPops);
+	QObject::connect(&regions,&RegionTable::removingRegion,&areas,&AreaTable::onRegionRemoved);
+	QObject::connect(&regions,&RegionTable::removingAllRegions,&areas,&AreaTable::removeAllAreas);
+	QObject::connect(&countries,&CountryTable::removingCountry,&regions,&RegionTable::onCountryRemoved);
+	QObject::connect(&countries,&CountryTable::removingAllCountries,&regions,&RegionTable::removeAllRegions);
 	ui->setupUi(this);
 	ui->agegroupsTable->setModel(&agegroupz);
 	ui->areasTable->setModel(&areas);

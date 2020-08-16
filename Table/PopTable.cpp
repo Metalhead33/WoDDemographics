@@ -144,9 +144,7 @@ bool PopTable::setData(const QModelIndex &index, const QVariant &value, int role
 				if(dat) {
 					entries[index.row()]->setQuantity(dat);
 				} else {
-					beginRemoveRows(QModelIndex(), index.row(), index.row());
-					entries.removeAt(index.row());
-					endRemoveRows();
+					removeRows(index.row(),1);
 				}
 				return true;
 			}
@@ -233,9 +231,11 @@ bool PopTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void PopTable::clear()
 {
+	if(!entries.empty() ) {
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
 	entries.clear();
 	endRemoveRows();
+	}
 }
 
 void PopTable::loadFromJSON(const QJsonArray &json, const AreaResolver& areaResolv, const RaceResolver& raceResolv,
@@ -261,5 +261,80 @@ QJsonArray PopTable::saveToJSON() const
 	QJsonArray tmp;
 	saveToJSON(tmp);
 	return tmp;
+}
+
+void PopTable::removeAllPops()
+{
+	clear();
+}
+
+void PopTable::onAreaRemoved(QSharedPointer<Area> ptr)
+{
+	int i = 0;
+	int count = entries.size();
+	for(;i < count;) {
+		if(entries[i]->getArea() == ptr)
+		{
+			removeRows(i,1);
+			--count;
+		}
+		else ++i;
+	}
+}
+
+void PopTable::onAgeGroupRemoved(QSharedPointer<AgeGroup> ptr)
+{
+	int i = 0;
+	int count = entries.size();
+	for(;i < count;) {
+		if(entries[i]->getAgegroup() == ptr)
+		{
+			removeRows(i,1);
+			--count;
+		}
+		else ++i;
+	}
+}
+
+void PopTable::onOccupationRemoved(QSharedPointer<Occupation> ptr)
+{
+	int i = 0;
+	int count = entries.size();
+	for(;i < count;) {
+		if(entries[i]->getOccupation() == ptr)
+		{
+			removeRows(i,1);
+			--count;
+		}
+		else ++i;
+	}
+}
+
+void PopTable::onRaceRemoved(QSharedPointer<Race> ptr)
+{
+	int i = 0;
+	int count = entries.size();
+	for(;i < count;) {
+		if(entries[i]->getRace() == ptr)
+		{
+			removeRows(i,1);
+			--count;
+		}
+		else ++i;
+	}
+}
+
+void PopTable::onReligionRemoved(QSharedPointer<Religion> ptr)
+{
+	int i = 0;
+	int count = entries.size();
+	for(;i < count;) {
+		if(entries[i]->getReligion() == ptr)
+		{
+			removeRows(i,1);
+			--count;
+		}
+		else ++i;
+	}
 }
 
