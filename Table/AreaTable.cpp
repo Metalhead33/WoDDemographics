@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 AreaTable::AreaTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastId(0)
 {
 }
 
@@ -103,7 +103,7 @@ bool AreaTable::setData(const QModelIndex &index, const QVariant &value, int rol
 				emit dataChanged(index, index, QVector<int>() << role);
 			} else {
 				beginInsertRows(QModelIndex(), index.row(), index.row());
-				Pointer tmp(new Area(entries.size()+1));
+				Pointer tmp(new Area(++lastId));
 				tmp->setAreaName(str);
 				entries.push_back(tmp);
 				endInsertRows();
@@ -142,7 +142,7 @@ bool AreaTable::insertRows(int row, int count, const QModelIndex &parent)
 	int nindex = row;
 	beginInsertRows(parent, row, row + count - 1);
 	for(int i = 0; i < count;++i) {
-		entries.insert(nindex,Pointer(new Area(nindex)) );
+		entries.insert(nindex,Pointer(new Area(++lastId)) );
 		++nindex;
 	}
 	endInsertRows();
@@ -162,6 +162,7 @@ bool AreaTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void AreaTable::clear()
 {
+	lastId = 0;
 	if(!entries.empty()) {
 	emit removingAllAreas();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -176,6 +177,7 @@ void AreaTable::loadFromJSON(const QJsonArray &json, const RegionResolver &resol
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
 		entries.push_back(Pointer( new Area(it.toObject(),resolv )) );
+		lastId = std::max(lastId,entries.back()->getAreaID());
 	}
 	endInsertRows();
 }

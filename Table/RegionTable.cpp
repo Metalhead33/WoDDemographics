@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 RegionTable::RegionTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastId(0)
 {
 }
 
@@ -97,7 +97,7 @@ bool RegionTable::setData(const QModelIndex &index, const QVariant &value, int r
 				emit dataChanged(index, index, QVector<int>() << role);
 			} else {
 				beginInsertRows(QModelIndex(), index.row(), index.row());
-				Pointer tmp(new Region(entries.size()+1));
+				Pointer tmp(new Region(++lastId));
 				tmp->setRegionName(str);
 				entries.push_back(tmp);
 				endInsertRows();
@@ -130,7 +130,7 @@ bool RegionTable::insertRows(int row, int count, const QModelIndex &parent)
 	int nindex = row;
 	beginInsertRows(parent, row, row + count - 1);
 	for(int i = 0; i < count;++i) {
-		entries.insert(nindex,Pointer(new Region(nindex)) );
+		entries.insert(nindex,Pointer(new Region(++lastId)) );
 		++nindex;
 	}
 	endInsertRows();
@@ -150,6 +150,7 @@ bool RegionTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void RegionTable::clear()
 {
+	lastId = 0;
 	if(!entries.empty() ) {
 	emit removingAllRegions();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -164,6 +165,7 @@ void RegionTable::loadFromJSON(const QJsonArray &json, const CountryResolver &re
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
 		entries.push_back(Pointer( new Region(it.toObject(),resolv)) );
+		lastId = std::max(lastId,entries.back()->getRegionID());
 	}
 	endInsertRows();
 }

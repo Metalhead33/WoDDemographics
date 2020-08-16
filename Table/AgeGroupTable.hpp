@@ -12,7 +12,7 @@ class AgeGroupTable : public QAbstractTableModel, public AgeGroupResolver
 	Q_OBJECT
 private:
 	QList<Pointer> entries;
-	int lastIndex;
+	int lastId;
 public:
 	explicit AgeGroupTable(QObject *parent = nullptr);
 	Pointer resolve(int id) const override;
