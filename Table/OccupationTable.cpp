@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 OccupationTable::OccupationTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastIndex(0)
 {
 }
 
@@ -71,7 +71,7 @@ bool OccupationTable::setData(const QModelIndex &index, const QVariant &value, i
 			emit dataChanged(index, index, QVector<int>() << role);
 		} else {
 			beginInsertRows(QModelIndex(), index.row(), index.row());
-			Pointer tmp(new Occupation(entries.size()+1));
+			Pointer tmp(new Occupation(++lastIndex));
 			tmp->setOccupationName(str);
 			entries.push_back(tmp);
 			endInsertRows();
@@ -114,6 +114,7 @@ bool OccupationTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void OccupationTable::clear()
 {
+	lastIndex = 0;
 	if(!entries.empty() ) {
 	emit removingAllOccupations();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -127,7 +128,9 @@ void OccupationTable::loadFromJSON(const QJsonArray &json)
 	clear();
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
-		entries.push_back(Pointer( new Occupation(it.toObject() )) );
+		Pointer tmp = Pointer( new Occupation(it.toObject() ));
+		lastIndex = std::max(lastIndex,tmp->getOccupationID());
+		entries.push_back(tmp);
 	}
 	endInsertRows();
 }

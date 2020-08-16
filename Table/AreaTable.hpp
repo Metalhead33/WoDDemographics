@@ -12,6 +12,7 @@ class AreaTable : public QAbstractTableModel, public AreaResolver
 	Q_OBJECT
 private:
 	QList<Pointer> entries;
+	int lastIndex;
 public:
 	explicit AreaTable(QObject *parent = nullptr);
 	Pointer resolve(int id) const override;

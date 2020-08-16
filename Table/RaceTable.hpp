@@ -12,6 +12,7 @@ class RaceTable : public QAbstractTableModel, public RaceResolver
 	Q_OBJECT
 private:
 	QList<Pointer> entries;
+	int lastIndex;
 public:
 	explicit RaceTable(QObject *parent = nullptr);
 	Pointer resolve(int id) const override;

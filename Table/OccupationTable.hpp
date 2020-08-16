@@ -12,6 +12,7 @@ class OccupationTable : public QAbstractTableModel, public OccupationResolver
 	Q_OBJECT
 private:
 	QList<Pointer> entries;
+	int lastIndex;
 public:
 	explicit OccupationTable(QObject *parent = nullptr);
 	Pointer resolve(int id) const override;

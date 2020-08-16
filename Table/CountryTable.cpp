@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 CountryTable::CountryTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastIndex(0)
 {
 }
 
@@ -71,7 +71,7 @@ bool CountryTable::setData(const QModelIndex &index, const QVariant &value, int 
 			emit dataChanged(index, index, QVector<int>() << role);
 		} else {
 			beginInsertRows(QModelIndex(), index.row(), index.row());
-			Pointer tmp(new Country(entries.size()+1));
+			Pointer tmp(new Country(++lastIndex));
 			tmp->setCountryName(str);
 			entries.push_back(tmp);
 			endInsertRows();
@@ -114,6 +114,7 @@ bool CountryTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void CountryTable::clear()
 {
+	lastIndex = 0;
 	if(!entries.empty() ) {
 	emit removingAllCountries();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -127,7 +128,9 @@ void CountryTable::loadFromJSON(const QJsonArray &json)
 	clear();
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
-		entries.push_back(Pointer( new Country(it.toObject() )) );
+		Pointer tmp = Pointer( new Country(it.toObject() ));
+		lastIndex = std::max(lastIndex,tmp->getCountryID());
+		entries.push_back(tmp);
 	}
 	endInsertRows();
 }

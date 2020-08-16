@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 AgeGroupTable::AgeGroupTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastIndex(0)
 {
 }
 
@@ -70,7 +70,7 @@ bool AgeGroupTable::setData(const QModelIndex &index, const QVariant &value, int
 			emit dataChanged(index, index, QVector<int>() << role);
 		} else {
 			beginInsertRows(QModelIndex(), index.row(), index.row());
-			Pointer tmp(new AgeGroup(entries.size()+1));
+			Pointer tmp(new AgeGroup(++lastIndex));
 			tmp->setAgeGroupName(str);
 			entries.push_back(tmp);
 			endInsertRows();
@@ -119,6 +119,7 @@ signals:
 
 void AgeGroupTable::clear()
 {
+	lastIndex = 0;
 	if(!entries.empty() ) {
 	emit removingAllAgeGroups();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -132,7 +133,9 @@ void AgeGroupTable::loadFromJSON(const QJsonArray &json)
 	clear();
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
-		entries.push_back(Pointer( new AgeGroup(it.toObject() )) );
+		Pointer tmp = Pointer( new AgeGroup(it.toObject() ));
+		lastIndex = std::max(lastIndex,tmp->getAgeGroupID());
+		entries.push_back(tmp);
 	}
 	endInsertRows();
 }

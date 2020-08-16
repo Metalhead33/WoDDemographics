@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 AreaTable::AreaTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastIndex(0)
 {
 }
 
@@ -102,7 +102,7 @@ bool AreaTable::setData(const QModelIndex &index, const QVariant &value, int rol
 				emit dataChanged(index, index, QVector<int>() << role);
 			} else {
 				beginInsertRows(QModelIndex(), index.row(), index.row());
-				Pointer tmp(new Area(entries.size()+1));
+				Pointer tmp(new Area(++lastIndex));
 				tmp->setAreaName(str);
 				entries.push_back(tmp);
 				endInsertRows();
@@ -161,6 +161,7 @@ bool AreaTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void AreaTable::clear()
 {
+	lastIndex = 0;
 	if(!entries.empty()) {
 	emit removingAllAreas();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -174,7 +175,9 @@ void AreaTable::loadFromJSON(const QJsonArray &json, const RegionResolver &resol
 	clear();
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
-		entries.push_back(Pointer( new Area(it.toObject(),resolv )) );
+		Pointer tmp = Pointer( new Area(it.toObject(),resolv ));
+		lastIndex = std::max(lastIndex,tmp->getAreaID());
+		entries.push_back(tmp);
 	}
 	endInsertRows();
 }
