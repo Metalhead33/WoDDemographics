@@ -12,7 +12,7 @@ class PopTable : public QAbstractTableModel, public PopResolver
 	Q_OBJECT
 private:
 	QList<Pointer> entries;
-	int lastIndex;
+	int lastId;
 public:
 	explicit PopTable(QObject *parent = nullptr);
 	Pointer resolve(int id) const override;
