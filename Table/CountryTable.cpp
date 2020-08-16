@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 CountryTable::CountryTable(QObject *parent)
-	: QAbstractTableModel(parent), lastIndex(0)
+	: QAbstractTableModel(parent)
 {
 }
 
@@ -12,6 +12,7 @@ CountryTable::Pointer CountryTable::resolve(int id) const
 	for(const auto& it : entries) {
 		if(it->getCountryID() == id) return it;
 	} }
+	qWarning("Could not resolve the country id [%d].",id);
 	return nullptr;
 }
 
@@ -71,7 +72,7 @@ bool CountryTable::setData(const QModelIndex &index, const QVariant &value, int 
 			emit dataChanged(index, index, QVector<int>() << role);
 		} else {
 			beginInsertRows(QModelIndex(), index.row(), index.row());
-			Pointer tmp(new Country(++lastIndex));
+			Pointer tmp(new Country(entries.size()+1));
 			tmp->setCountryName(str);
 			entries.push_back(tmp);
 			endInsertRows();
@@ -114,7 +115,6 @@ bool CountryTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void CountryTable::clear()
 {
-	lastIndex = 0;
 	if(!entries.empty() ) {
 	emit removingAllCountries();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -128,9 +128,7 @@ void CountryTable::loadFromJSON(const QJsonArray &json)
 	clear();
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
-		Pointer tmp = Pointer( new Country(it.toObject() ));
-		lastIndex = std::max(lastIndex,tmp->getCountryID());
-		entries.push_back(tmp);
+		entries.push_back(Pointer( new Country(it.toObject() )) );
 	}
 	endInsertRows();
 }

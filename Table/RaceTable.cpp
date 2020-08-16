@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 RaceTable::RaceTable(QObject *parent)
-	: QAbstractTableModel(parent), lastIndex(0)
+	: QAbstractTableModel(parent)
 {
 }
 
@@ -12,6 +12,7 @@ RaceTable::Pointer RaceTable::resolve(int id) const
 	for(const auto& it : entries) {
 		if(it->getRaceID() == id) return it;
 	} }
+	qWarning("Could not resolve the race id [%d].",id);
 	return nullptr;
 }
 
@@ -77,7 +78,7 @@ bool RaceTable::setData(const QModelIndex &index, const QVariant &value, int rol
 			emit dataChanged(index, index, QVector<int>() << role);
 		} else {
 			beginInsertRows(QModelIndex(), index.row(), index.row());
-			Pointer tmp(new Race(++lastIndex));
+			Pointer tmp(new Race(entries.size()+1));
 			tmp->setRaceName(str);
 			entries.push_back(tmp);
 			endInsertRows();
@@ -120,7 +121,6 @@ bool RaceTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void RaceTable::clear()
 {
-	lastIndex = 0;
 	if(!entries.empty() ) {
 	emit removingAllRaces();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
@@ -134,9 +134,7 @@ void RaceTable::loadFromJSON(const QJsonArray &json)
 	clear();
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
-		Pointer tmp = Pointer( new Race(it.toObject() ));
-		lastIndex = std::max(lastIndex,tmp->getRaceID());
-		entries.push_back(tmp);
+		entries.push_back(Pointer( new Race(it.toObject() )) );
 	}
 	endInsertRows();
 }
