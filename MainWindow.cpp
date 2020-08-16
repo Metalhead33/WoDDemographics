@@ -60,96 +60,120 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_ageGroupsSave2JSON_clicked()
 {
-	QJsonDocument doc(agegroupz.saveToJSON());
-	Util::saveJson(doc);
+	QJsonObject doc;
+	doc["agegroups"] = agegroupz.saveToJSON();
+	Util::saveJson(QJsonDocument(doc));
 }
 
 void MainWindow::on_ageGroupsLoadFromJSON_clicked()
 {
-	QJsonDocument doc = Util::loadJson();
-	agegroupz.loadFromJSON(doc.array());
+	auto doc = Util::loadJson().object();
+	if(doc.contains("agegroups")) {
+	agegroupz.loadFromJSON(doc["agegroups"].toArray());
+	}
 }
 
 void MainWindow::on_popsSave2JSON_clicked()
 {
-	QJsonDocument doc(pops.saveToJSON());
-	Util::saveJson(doc);
+	QJsonObject doc;
+	doc["pops"] = pops.saveToJSON();
+	Util::saveJson(QJsonDocument(doc));
 }
 
 void MainWindow::on_popsLoadFromJSON_clicked()
 {
-	QJsonDocument doc = Util::loadJson();
-	pops.loadFromJSON(doc.array(),areas,races,religions,occupations,agegroupz);
+	auto doc = Util::loadJson().object();
+	if(doc.contains("pops")) {
+		pops.loadFromJSON(doc["pops"].toArray(),areas,races,religions,occupations,agegroupz);
+	}
 }
 
 void MainWindow::on_racesSave2JSON_clicked()
 {
-	QJsonDocument doc(races.saveToJSON());
-	Util::saveJson(doc);
+	QJsonObject doc;
+	doc["races"] = races.saveToJSON();
+	Util::saveJson(QJsonDocument(doc));
 }
 
 void MainWindow::on_racesLoadFromJSON_clicked()
 {
-	QJsonDocument doc = Util::loadJson();
-	races.loadFromJSON(doc.array());
+	auto doc = Util::loadJson().object();
+	if(doc.contains("races")) {
+		races.loadFromJSON(doc["races"].toArray());
+	}
 }
 
 void MainWindow::on_religionsSave2JSON_clicked()
 {
-	QJsonDocument doc(religions.saveToJSON());
-	Util::saveJson(doc);
+	QJsonObject doc;
+	doc["religions"] = religions.saveToJSON();
+	Util::saveJson(QJsonDocument(doc));
 }
 
 void MainWindow::on_reigionsLoadFromJSON_clicked()
 {
-	QJsonDocument doc = Util::loadJson();
-	religions.loadFromJSON(doc.array());
+	auto doc = Util::loadJson().object();
+	if(doc.contains("religions")) {
+		religions.loadFromJSON(doc["religions"].toArray());
+	}
 }
 
 void MainWindow::on_occupationsSave2JSON_clicked()
 {
-	QJsonDocument doc(occupations.saveToJSON());
-	Util::saveJson(doc);
+	QJsonObject doc;
+	doc["occupations"] = occupations.saveToJSON();
+	Util::saveJson(QJsonDocument(doc));
 }
 
 void MainWindow::on_occupationsLoadFromJSON_clicked()
 {
-	QJsonDocument doc = Util::loadJson();
-	occupations.loadFromJSON(doc.array());
+	auto doc = Util::loadJson().object();
+	if(doc.contains("occupations")) {
+		occupations.loadFromJSON(doc["occupations"].toArray());
+	}
 }
 
 void MainWindow::on_countriesSave2JSON_clicked()
 {
-	QJsonDocument doc(countries.saveToJSON());
-	Util::saveJson(doc);
+	QJsonObject doc;
+	doc["countries"] = countries.saveToJSON();
+	Util::saveJson(QJsonDocument(doc));
 }
 
 void MainWindow::on_countriesLoadFromJSON_clicked()
 {
-	QJsonDocument doc = Util::loadJson();
-	countries.loadFromJSON(doc.array());
+	auto doc = Util::loadJson().object();
+	if(doc.contains("countries")) {
+		countries.loadFromJSON(doc["countries"].toArray());
+	}
 }
 
 void MainWindow::on_regionsSave2JSON_clicked()
 {
-	QJsonDocument doc(regions.saveToJSON());
-	Util::saveJson(doc);
+	QJsonObject doc;
+	doc["regions"] = regions.saveToJSON();
+	Util::saveJson(QJsonDocument(doc));
 }
 
 void MainWindow::on_regionsLoadFromJSON_clicked()
 {
-	QJsonDocument doc = Util::loadJson();
-	regions.loadFromJSON(doc.array(),countries);
+	auto doc = Util::loadJson().object();
+	if(doc.contains("regions")) {
+		regions.loadFromJSON(doc["regions"].toArray(),countries);
+	}
 }
 
 void MainWindow::on_areasSave2JSON_clicked()
 {
-	QJsonDocument doc(areas.saveToJSON());
-	Util::saveJson(doc);
+	QJsonObject doc;
+	doc["areas"] = areas.saveToJSON();
+	Util::saveJson(QJsonDocument(doc));
 }
 
 void MainWindow::on_areasLoadFromJSON_clicked()
 {
-	QJsonDocument doc = Util::loadJson();
-	areas.loadFromJSON(doc.array(),regions);
+	auto doc = Util::loadJson().object();
+	if(doc.contains("areas")) {
+		areas.loadFromJSON(doc["areas"].toArray(),regions);
+	}
 }

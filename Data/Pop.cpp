@@ -88,6 +88,9 @@ void Pop::loadFromJson(const QJsonObject &json, const AreaResolver &areaResolv, 
 	if(json.contains("quantity")) {
 		this->quantity = json["quantity"].toInt();
 	}
+	if(json.contains("areaID")) {
+		this->area = areaResolv.resolve(json["areaId"].toInt(1));
+	}
 	if(json.contains("raceId")) {
 		this->race = raceResolv.resolve(json["raceId"].toInt(1));
 	}
@@ -171,6 +174,7 @@ Pop::Pop(const QJsonObject &json, const AreaResolver &areaResolv, const RaceReso
 {
 	this->popId = json["popId"].toInt(1);
 	this->quantity = json["quantity"].toInt(0);
+	this->area = areaResolv.resolve(json["areaID"].toInt(1));
 	this->race = raceResolv.resolve(json["raceId"].toInt(1));
 	this->religion = religionResolv.resolve(json["religionID"].toInt(1));
 	this->occupation = occupationResolv.resolve(json["occupationID"].toInt(1));
@@ -183,6 +187,7 @@ Pop::Pop(const Pop &cpy)
 {
 	this->popId = cpy.popId;
 	this->quantity = cpy.quantity;
+	this->area = cpy.area;
 	this->race = cpy.race;
 	this->religion = cpy.religion;
 	this->occupation = cpy.occupation;
@@ -194,6 +199,7 @@ void Pop::operator=(const Pop &cpy)
 {
 	this->popId = cpy.popId;
 	this->quantity = cpy.quantity;
+	this->area = cpy.area;
 	this->race = cpy.race;
 	this->religion = cpy.religion;
 	this->occupation = cpy.occupation;
