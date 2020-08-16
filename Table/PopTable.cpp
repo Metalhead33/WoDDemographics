@@ -2,7 +2,7 @@
 #include "../PointerRole.hpp"
 
 PopTable::PopTable(QObject *parent)
-	: QAbstractTableModel(parent)
+	: QAbstractTableModel(parent), lastIndex(0)
 {
 }
 
@@ -178,7 +178,7 @@ bool PopTable::setData(const QModelIndex &index, const QVariant &value, int role
 		} else {
 			if(!index.column() && value.toInt()) {
 				beginInsertRows(QModelIndex(), index.row(), index.row());
-				Pointer tmp(new Pop(entries.size()+1));
+				Pointer tmp(new Pop(++lastIndex));
 				tmp->setQuantity(value.toInt());
 				entries.push_back(tmp);
 				endInsertRows();
@@ -231,6 +231,7 @@ bool PopTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void PopTable::clear()
 {
+	lastIndex = 0;
 	if(!entries.empty() ) {
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
 	entries.clear();
@@ -244,7 +245,9 @@ void PopTable::loadFromJSON(const QJsonArray &json, const AreaResolver& areaReso
 	clear();
 	beginInsertRows(QModelIndex(),0,json.size()-1);
 	for(const auto& it : json) {
-		entries.push_back(Pointer( new Pop(it.toObject(),areaResolv,raceResolv,religionResolv,occupationResolv,agegroupResolv)) );
+		Pointer tmp = Pointer( new Pop(it.toObject(),areaResolv,raceResolv,religionResolv,occupationResolv,agegroupResolv));
+		lastIndex = std::max(lastIndex,tmp->getPopId());
+		entries.push_back(tmp);
 	}
 	endInsertRows();
 }

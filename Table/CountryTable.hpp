@@ -12,6 +12,7 @@ class CountryTable : public QAbstractTableModel, public CountryResolver
 	Q_OBJECT
 private:
 	QList<Pointer> entries;
+	int lastIndex;
 public:
 	explicit CountryTable(QObject *parent = nullptr);
 	Pointer resolve(int id) const override;
