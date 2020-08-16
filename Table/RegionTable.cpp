@@ -89,9 +89,7 @@ bool RegionTable::setData(const QModelIndex &index, const QVariant &value, int r
 			const QString str = value.toString();
 			if( (str.isNull() || str.isEmpty())) {
 				if(index.row() < entries.size()) {
-					beginRemoveRows(QModelIndex(), index.row(), index.row());
-					entries.removeAt(index.row());
-					endRemoveRows();
+					removeRows(index.row(),1);
 				}
 			} else if(index.row() < entries.size()) {
 				entries[index.row()]->setRegionName(str);
@@ -142,6 +140,7 @@ bool RegionTable::removeRows(int row, int count, const QModelIndex &parent)
 {
 	beginRemoveRows(parent, row, row + count - 1);
 	for(int i = 0; i < count; ++i) {
+		emit removingRegion(entries[row]);
 		entries.removeAt(row);
 	}
 	endRemoveRows();
@@ -150,9 +149,12 @@ bool RegionTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void RegionTable::clear()
 {
+	if(!entries.empty() ) {
+	emit removingAllRegions();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
 	entries.clear();
 	endRemoveRows();
+	}
 }
 
 void RegionTable::loadFromJSON(const QJsonArray &json, const CountryResolver &resolv)
@@ -177,4 +179,23 @@ QJsonArray RegionTable::saveToJSON() const
 	QJsonArray tmp;
 	saveToJSON(tmp);
 	return tmp;
+}
+
+void RegionTable::onCountryRemoved(QSharedPointer<Country> ptr)
+{
+	int i = 0;
+	int count = entries.size();
+	for(;i < count;) {
+		if(entries[i]->getCountry() == ptr)
+		{
+			removeRows(i,1);
+			--count;
+		}
+		else ++i;
+	}
+}
+
+void RegionTable::removeAllRegions()
+{
+	clear();
 }

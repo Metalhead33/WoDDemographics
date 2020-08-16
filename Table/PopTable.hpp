@@ -45,6 +45,13 @@ public:
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
 
+public slots:
+	void removeAllPops(void);
+	void onAreaRemoved(QSharedPointer<Area> ptr);
+	void onAgeGroupRemoved(QSharedPointer<AgeGroup> ptr);
+	void onOccupationRemoved(QSharedPointer<Occupation> ptr);
+	void onRaceRemoved(QSharedPointer<Race> ptr);
+	void onReligionRemoved(QSharedPointer<Religion> ptr);
 private:
 };
 

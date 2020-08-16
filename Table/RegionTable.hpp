@@ -43,9 +43,11 @@ public:
 	void loadFromJSON(const QJsonArray& json, const CountryResolver& resolv);
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
-
+public slots:
+	void onCountryRemoved(QSharedPointer<Country> ptr);
+	void removeAllRegions(void);
 signals:
-	void removnigRegion(Pointer ptr);
+	void removingRegion(Pointer ptr);
 	void removingAllRegions(void);
 };
 

@@ -64,9 +64,7 @@ bool CountryTable::setData(const QModelIndex &index, const QVariant &value, int 
 	if (role == Qt::EditRole && !index.column()) {
 		if( (str.isNull() || str.isEmpty())) {
 			if(index.row() < entries.size()) {
-				beginRemoveRows(QModelIndex(), index.row(), index.row());
-				entries.removeAt(index.row());
-				endRemoveRows();
+				removeRows(index.row(),1);
 			}
 		} else if(index.row() < entries.size()) {
 			entries[index.row()]->setCountryName(str);
@@ -107,6 +105,7 @@ bool CountryTable::removeRows(int row, int count, const QModelIndex &parent)
 {
 	beginRemoveRows(parent, row, row + count - 1);
 	for(int i = 0; i < count; ++i) {
+		emit removingCountry(entries[row]);
 		entries.removeAt(row);
 	}
 	endRemoveRows();
@@ -115,9 +114,12 @@ bool CountryTable::removeRows(int row, int count, const QModelIndex &parent)
 
 void CountryTable::clear()
 {
+	if(!entries.empty() ) {
+	emit removingAllCountries();
 	beginRemoveRows(QModelIndex(), 0, entries.size()-1);
 	entries.clear();
 	endRemoveRows();
+	}
 }
 
 void CountryTable::loadFromJSON(const QJsonArray &json)
