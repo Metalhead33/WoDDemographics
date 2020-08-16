@@ -78,6 +78,8 @@ Race::Race(const QJsonObject &json, QObject *parent)
 {
 	this->raceID = json["raceID"].toInt(1);
 	this->raceName = json["raceName"].toString();
+	if(raceName.isNull()) qWarning("Race name is null for race with the id [%d].",raceID);
+	else if(raceName.isEmpty()) qWarning("Race name is empty for race with the id [%d].",raceID);
 	this->raceName_hun = json["raceName_hun"].toString();
 }
 
