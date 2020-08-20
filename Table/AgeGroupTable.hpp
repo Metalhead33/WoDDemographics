@@ -14,6 +14,7 @@ private:
 	QList<Pointer> entries;
 	int lastId;
 public:
+	friend class PopDistributionTable;
 	explicit AgeGroupTable(QObject *parent = nullptr);
 	Pointer resolve(int id) const override;
 

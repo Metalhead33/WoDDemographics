@@ -71,6 +71,8 @@ public:
 	QSharedPointer<AgeGroup> getAgegroup() const;
 	void setAgegroup(const QSharedPointer<AgeGroup> &value);
 
+	Pop splitOff(int toSplit);
+
 signals:
 
 };

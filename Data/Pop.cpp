@@ -158,6 +158,15 @@ void Pop::setAgegroup(const QSharedPointer<AgeGroup> &value)
 	agegroup = value;
 }
 
+Pop Pop::splitOff(int toSplit)
+{
+	const int toReduce = std::min(toSplit,quantity);
+	Pop tmp(*this);
+	this->quantity -= toReduce;
+	tmp.quantity = toReduce;
+	return tmp;
+}
+
 Pop::Pop(QObject *parent) : QObject(parent)
 {
 

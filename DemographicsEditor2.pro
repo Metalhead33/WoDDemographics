@@ -20,7 +20,9 @@ SOURCES += \
         ComboBoxItemDelegate.cpp \
         Data/AgeGroup.cpp \
         Data/Area.cpp \
+        Data/Business.cpp \
         Data/Country.cpp \
+        Data/JobDemand.cpp \
         Data/Occupation.cpp \
         Data/Pop.cpp \
         Data/Race.cpp \
@@ -32,6 +34,7 @@ SOURCES += \
         Table/AreaTable.cpp \
         Table/CountryTable.cpp \
         Table/OccupationTable.cpp \
+        Table/PopDistributionTable.cpp \
         Table/PopTable.cpp \
         Table/RaceTable.cpp \
         Table/RegionTable.cpp \
@@ -50,7 +53,9 @@ HEADERS += \
 	ComboBoxItemDelegate.hpp \
 	Data/AgeGroup.hpp \
 	Data/Area.hpp \
+	Data/Business.hpp \
 	Data/Country.hpp \
+	Data/JobDemand.hpp \
 	Data/Occupation.hpp \
 	Data/Pop.hpp \
 	Data/Race.hpp \
@@ -64,6 +69,7 @@ HEADERS += \
 	Table/AreaTable.hpp \
 	Table/CountryTable.hpp \
 	Table/OccupationTable.hpp \
+	Table/PopDistributionTable.hpp \
 	Table/PopTable.hpp \
 	Table/RaceTable.hpp \
 	Table/RegionTable.hpp \

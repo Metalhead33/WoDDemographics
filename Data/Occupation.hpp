@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QJsonObject>
+#include <QFlag>
 #include "../Resolver/Resolver.hpp"
 
 class Occupation : public QObject
