@@ -191,6 +191,12 @@ Pop::Pop(const QJsonObject &json, const AreaResolver &areaResolv, const RaceReso
 	this->female = json["female"].toBool(false);
 }
 
+Pop::Pop(int id, int quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation, QSharedPointer<AgeGroup> agegroup, bool female) : QObject(nullptr),
+	popId(id), quantity(quantity), area(area), race(race), religion(religion), occupation(occupation), agegroup(agegroup), female(female)
+{
+
+}
+
 Pop::Pop(const Pop &cpy)
 	: QObject(cpy.parent())
 {

@@ -81,6 +81,8 @@ private slots:
 
 	void on_purgeAreas_clicked();
 
+	void on_popDistributionCreator_clicked();
+
 private:
 	Ui::MainWindow *ui;
 	AgeGroupTable agegroupz;

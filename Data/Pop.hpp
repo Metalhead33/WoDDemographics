@@ -34,6 +34,8 @@ public:
 	explicit Pop(QObject *parent = nullptr);
 	explicit Pop(int rowCnt, QObject *parent = nullptr);
 	explicit Pop(const QJsonObject& json, const AreaResolver& areaResolv, const RaceResolver& raceResolv, const ReligionResolver& religionResolv, const OccupationResolver& occupationResolv, const AgeGroupResolver& agegroupResolv, QObject *parent = nullptr);
+	explicit Pop(int id, int quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation,
+				 QSharedPointer<AgeGroup> agegroup, bool female);
 	Pop(const Pop& cpy);
 	void operator=(const Pop& cpy);
 	int getPopId() const;

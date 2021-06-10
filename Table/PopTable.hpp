@@ -36,6 +36,7 @@ public:
 
 	// Add data:
 	bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+	bool insertPop(int quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation, QSharedPointer<AgeGroup> agegroup, bool female);
 
 	// Remove data:
 	bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;

@@ -29,6 +29,7 @@ SOURCES += \
         Data/Region.cpp \
         Data/Religion.cpp \
         MainWindow.cpp \
+        PopGeneratorDialog.cpp \
         SpinboxDelegate.cpp \
         Table/AgeGroupTable.cpp \
         Table/AreaTable.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
 	Data/Religion.hpp \
 	MainWindow.hpp \
 	PointerRole.hpp \
+	PopGeneratorDialog.hpp \
 	Resolver/Resolver.hpp \
 	SpinboxDelegate.hpp \
 	Table/AgeGroupTable.hpp \
@@ -77,7 +79,8 @@ HEADERS += \
 	Util.hpp
 
 FORMS += \
-	MainWindow.ui
+	MainWindow.ui \
+	PopGeneratorDialog.ui
 
 DISTFILES += \
 	README.md

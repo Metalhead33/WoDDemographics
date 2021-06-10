@@ -144,6 +144,7 @@ bool PopTable::setData(const QModelIndex &index, const QVariant &value, int role
 				int dat = value.toInt();
 				if(dat) {
 					entries[index.row()]->setQuantity(dat);
+					emit dataChanged(index,index, QVector<int>() << Qt::EditRole );
 				} else {
 					removeRows(index.row(),1);
 				}
@@ -151,26 +152,32 @@ bool PopTable::setData(const QModelIndex &index, const QVariant &value, int role
 			}
 			case 1: {
 				entries[index.row()]->setArea(value.value<QSharedPointer<Area>>());
+			emit dataChanged(index,index, QVector<int>() << Qt::EditRole );
 				return true;
 			}
 			case 2: {
 				entries[index.row()]->setRace(value.value<QSharedPointer<Race>>());
+			emit dataChanged(index,index, QVector<int>() << Qt::EditRole );
 				return true;
 			}
 			case 3: {
 				entries[index.row()]->setReligion(value.value<QSharedPointer<Religion>>());
+				emit dataChanged(index,index, QVector<int>() << Qt::EditRole );
 				return true;
 			}
 			case 4: {
 				entries[index.row()]->setOccupation(value.value<QSharedPointer<Occupation>>());
+				emit dataChanged(index,index, QVector<int>() << Qt::EditRole );
 				return true;
 			}
 			case 5: {
 				entries[index.row()]->setAgegroup(value.value<QSharedPointer<AgeGroup>>());
+				emit dataChanged(index,index, QVector<int>() << Qt::EditRole );
 				return true;
 			}
 			case 6: {
 				entries[index.row()]->setFemale(value.toBool());
+				emit dataChanged(index,index, QVector<int>() << Qt::EditRole );
 				return true;
 			}
 			default:
@@ -216,6 +223,24 @@ bool PopTable::insertRows(int row, int count, const QModelIndex &parent)
 		entries.insert(nindex,Pointer(new Pop(++lastId)) );
 		++nindex;
 	}
+	endInsertRows();
+	return true;
+}
+
+bool PopTable::insertPop(int quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation,
+						 QSharedPointer<AgeGroup> agegroup, bool female)
+{
+	if(!quantity) return false;
+	for(int i = 0; i < entries.size(); ++i) {
+		Pop& popref = *entries[i];
+		if(popref.getArea() == area && popref.getReligion() == religion && popref.getOccupation() == occupation && popref.getAgegroup() == agegroup && popref.getFemale() == female) {
+			popref.setQuantity(popref.getQuantity() + quantity);
+			emit dataChanged(index(i,0),index(i,0), QVector<int>() << Qt::EditRole );
+			return true;
+		}
+	}
+	beginInsertRows(QModelIndex(), entries.size(), entries.size());
+	entries.push_back(QSharedPointer<Pop>(new Pop(entries.size()+1,quantity,area,race,religion,occupation,agegroup,female)));
 	endInsertRows();
 	return true;
 }

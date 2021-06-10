@@ -76,7 +76,7 @@ bool PopDistributionTable::setData(const QModelIndex &index, const QVariant &val
 	if (data(index, role) != value) {
 		// FIXME: Implement me!
 		if(index.column()) percentages[index.row()].second.second = value.toDouble();
-		else percentages[index.row()].second.first = value.toDouble();
+			else percentages[index.row()].second.first = value.toDouble();
 		emit dataChanged(index, index, QVector<int>() << role);
 		return true;
 	}
@@ -88,7 +88,7 @@ Qt::ItemFlags PopDistributionTable::flags(const QModelIndex &index) const
 	if (!index.isValid())
 		return Qt::NoItemFlags;
 
-	return Qt::ItemIsEditable | Qt::ItemIsSelectable; // FIXME: Implement me!
+	return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled; // FIXME: Implement me!
 }
 
 void PopDistributionTable::toDistributions(PopDistributionTable::DistributionList &distributions, int totalNumber) const

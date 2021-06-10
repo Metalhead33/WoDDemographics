@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QMessageBox>
+#include "PopGeneratorDialog.hpp"
 
 /*
 ComboBoxIdentifierDelegate ageGroupsDelegate;
@@ -444,4 +445,10 @@ void MainWindow::on_purgeRegions_clicked()
 void MainWindow::on_purgeAreas_clicked()
 {
 	areas.clear();
+}
+
+void MainWindow::on_popDistributionCreator_clicked()
+{
+	PopGeneratorDialog* dial = new PopGeneratorDialog(pops,areas,races,religions,agegroupz,this);
+	dial->show();
 }

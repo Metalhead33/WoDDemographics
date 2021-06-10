@@ -32,7 +32,7 @@
     <item row="1" column="0" colspan="2">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tables">
        <attribute name="title">
@@ -404,6 +404,19 @@
        <attribute name="title">
         <string>Randomizer</string>
        </attribute>
+       <widget class="QPushButton" name="popDistributionCreator">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>221</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Create pop distribution</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
