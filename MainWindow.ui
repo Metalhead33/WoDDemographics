@@ -16,6 +16,20 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_16">
     <item row="0" column="0">
+     <widget class="QPushButton" name="loadAllBtn">
+      <property name="text">
+       <string>Load everything</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="saveAllBtn">
+      <property name="text">
+       <string>Save everything</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -55,6 +69,13 @@
                  </property>
                 </widget>
                </item>
+               <item row="0" column="2">
+                <widget class="QPushButton" name="purgePops">
+                 <property name="text">
+                  <string>Purge</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
@@ -78,6 +99,13 @@
                <string>Save to / load from JSON</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_11">
+               <item row="0" column="1">
+                <widget class="QPushButton" name="racesLoadFromJSON">
+                 <property name="text">
+                  <string>Load</string>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0">
                 <widget class="QPushButton" name="racesSave2JSON">
                  <property name="text">
@@ -85,10 +113,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QPushButton" name="racesLoadFromJSON">
+               <item row="0" column="2">
+                <widget class="QPushButton" name="purgeRaces">
                  <property name="text">
-                  <string>Load</string>
+                  <string>Purge</string>
                  </property>
                 </widget>
                </item>
@@ -115,6 +143,13 @@
                <string>Save to / load from JSON</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_9">
+               <item row="0" column="1">
+                <widget class="QPushButton" name="reigionsLoadFromJSON">
+                 <property name="text">
+                  <string>Load</string>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0">
                 <widget class="QPushButton" name="religionsSave2JSON">
                  <property name="text">
@@ -122,10 +157,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QPushButton" name="reigionsLoadFromJSON">
+               <item row="0" column="2">
+                <widget class="QPushButton" name="purgeReligions">
                  <property name="text">
-                  <string>Load</string>
+                  <string>Purge</string>
                  </property>
                 </widget>
                </item>
@@ -166,6 +201,13 @@
                  </property>
                 </widget>
                </item>
+               <item row="0" column="2">
+                <widget class="QPushButton" name="purgeAgeGrps">
+                 <property name="text">
+                  <string>Purge</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
@@ -200,6 +242,13 @@
                 <widget class="QPushButton" name="occupationsLoadFromJSON">
                  <property name="text">
                   <string>Load</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QPushButton" name="purgeOccupations">
+                 <property name="text">
+                  <string>Purge</string>
                  </property>
                 </widget>
                </item>
@@ -240,6 +289,13 @@
                  </property>
                 </widget>
                </item>
+               <item row="0" column="2">
+                <widget class="QPushButton" name="purgeCountries">
+                 <property name="text">
+                  <string>Purge</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
@@ -263,6 +319,13 @@
                <string>Save to / load from JSON</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
+               <item row="0" column="1">
+                <widget class="QPushButton" name="regionsLoadFromJSON">
+                 <property name="text">
+                  <string>Load</string>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0">
                 <widget class="QPushButton" name="regionsSave2JSON">
                  <property name="text">
@@ -270,10 +333,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QPushButton" name="regionsLoadFromJSON">
+               <item row="0" column="2">
+                <widget class="QPushButton" name="purgeRegions">
                  <property name="text">
-                  <string>Load</string>
+                  <string>Purge</string>
                  </property>
                 </widget>
                </item>
@@ -300,6 +363,13 @@
                <string>Save to / load from JSON</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_5">
+               <item row="0" column="1">
+                <widget class="QPushButton" name="areasLoadFromJSON">
+                 <property name="text">
+                  <string>Load</string>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0">
                 <widget class="QPushButton" name="areasSave2JSON">
                  <property name="text">
@@ -307,10 +377,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QPushButton" name="areasLoadFromJSON">
+               <item row="0" column="2">
+                <widget class="QPushButton" name="purgeAreas">
                  <property name="text">
-                  <string>Load</string>
+                  <string>Purge</string>
                  </property>
                 </widget>
                </item>

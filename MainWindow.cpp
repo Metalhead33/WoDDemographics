@@ -1,6 +1,11 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
 #include "Util.hpp"
+#include <QFile>
+#include <QFileDialog>
+#include <QDir>
+#include <QDirIterator>
+#include <QMessageBox>
 
 /*
 ComboBoxIdentifierDelegate ageGroupsDelegate;
@@ -187,4 +192,256 @@ void MainWindow::on_areasLoadFromJSON_clicked()
 	if(doc.contains("areas")) {
 		areas.loadFromJSON(doc["areas"].toArray(),regions);
 	}
+}
+
+void MainWindow::on_loadAllBtn_clicked()
+{
+	QString path = QFileDialog::getExistingDirectory(this,tr("Select directory to import demographics data from!"),QString());
+	if(path.isEmpty()) return;
+	QDir direct(path);
+	QString fPath = direct.absoluteFilePath(QStringLiteral("occupations.json"));
+	QFile occupationsFile(fPath);
+	if(occupationsFile.open(QFile::ReadOnly)) {
+		auto doc = QJsonDocument::fromJson(occupationsFile.readAll()).object();
+		if(doc.contains("occupations")) {
+			occupations.loadFromJSON(doc["occupations"].toArray());
+		}
+		occupationsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\". Does it even exist?").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("agegroups.json"));
+	QFile agegroupsFile(fPath);
+	if(agegroupsFile.open(QFile::ReadOnly)) {
+		auto doc = QJsonDocument::fromJson(agegroupsFile.readAll()).object();
+		if(doc.contains("agegroups")) {
+			agegroupz.loadFromJSON(doc["agegroups"].toArray());
+		}
+		agegroupsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\". Does it even exist?").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("religions.json"));
+	QFile religionsFile(fPath);
+	if(religionsFile.open(QFile::ReadOnly)) {
+		auto doc = QJsonDocument::fromJson(religionsFile.readAll()).object();
+		if(doc.contains("religions")) {
+			religions.loadFromJSON(doc["religions"].toArray());
+		}
+		religionsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\". Does it even exist?").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("races.json"));
+	QFile racesFile(fPath);
+	if(racesFile.open(QFile::ReadOnly)) {
+		auto doc = QJsonDocument::fromJson(racesFile.readAll()).object();
+		if(doc.contains("races")) {
+			races.loadFromJSON(doc["races"].toArray());
+		}
+		racesFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\". Does it even exist?").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("countries.json"));
+	QFile countriesFile(fPath);
+	if(countriesFile.open(QFile::ReadOnly)) {
+		auto doc = QJsonDocument::fromJson(countriesFile.readAll()).object();
+		if(doc.contains("countries")) {
+			countries.loadFromJSON(doc["countries"].toArray());
+		}
+		countriesFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\". Does it even exist?").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("regions.json"));
+	QFile regionsFile(fPath);
+	if(regionsFile.open(QFile::ReadOnly)) {
+		auto doc = QJsonDocument::fromJson(regionsFile.readAll()).object();
+		if(doc.contains("regions")) {
+			regions.loadFromJSON(doc["regions"].toArray(),countries);
+		}
+		regionsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\". Does it even exist?").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("areas.json"));
+	QFile areasFile(fPath);
+	if(areasFile.open(QFile::ReadOnly)) {
+		auto doc = QJsonDocument::fromJson(areasFile.readAll()).object();
+		if(doc.contains("areas")) {
+			areas.loadFromJSON(doc["areas"].toArray(),regions);
+		}
+		areasFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\". Does it even exist?").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("pops.json"));
+	QFile popsFile(fPath);
+	if(popsFile.open(QFile::ReadOnly)) {
+		auto doc = QJsonDocument::fromJson(popsFile.readAll()).object();
+		if(doc.contains("pops")) {
+			pops.loadFromJSON(doc["pops"].toArray(),areas,races,religions,occupations,agegroupz);
+		}
+		popsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\". Does it even exist?").arg(fPath));
+		return;
+	}
+	QMessageBox::information(this,tr("Success!"),tr("Successfully loaded all the files!"));
+	/*QDirIterator iter(path);
+	while(iter.hasNext()) {
+		QString path = iter.next();
+	}*/
+}
+
+void MainWindow::on_saveAllBtn_clicked()
+{
+	QString path = QFileDialog::getExistingDirectory(this,tr("Select directory to export demographics data to!"),QString());
+	if(path.isEmpty()) return;
+	QDir direct(path);
+	QString fPath = direct.absoluteFilePath(QStringLiteral("occupations.json"));
+	QFile occupationsFile(fPath);
+	if(occupationsFile.open(QFile::WriteOnly)) {
+		QJsonObject doc;
+		doc["occupations"] = occupations.saveToJSON();
+		occupationsFile.write(QJsonDocument(doc).toJson(QJsonDocument::Indented));
+		occupationsFile.flush();
+		occupationsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\" for writing.").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("agegroups.json"));
+	QFile agegroupsFile(fPath);
+	if(agegroupsFile.open(QFile::WriteOnly)) {
+		QJsonObject doc;
+		doc["agegroups"] = agegroupz.saveToJSON();
+		agegroupsFile.write(QJsonDocument(doc).toJson(QJsonDocument::Indented));
+		agegroupsFile.flush();
+		agegroupsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\" for writing.").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("religions.json"));
+	QFile religionsFile(fPath);
+	if(religionsFile.open(QFile::WriteOnly)) {
+		QJsonObject doc;
+		doc["religions"] = religions.saveToJSON();
+		religionsFile.write(QJsonDocument(doc).toJson(QJsonDocument::Indented));
+		religionsFile.flush();
+		religionsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\" for writing.").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("races.json"));
+	QFile racesFile(fPath);
+	if(racesFile.open(QFile::WriteOnly)) {
+		QJsonObject doc;
+		doc["races"] = races.saveToJSON();
+		racesFile.write(QJsonDocument(doc).toJson(QJsonDocument::Indented));
+		racesFile.flush();
+		racesFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\" for writing.").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("countries.json"));
+	QFile countriesFile(fPath);
+	if(countriesFile.open(QFile::WriteOnly)) {
+		QJsonObject doc;
+		doc["countries"] = countries.saveToJSON();
+		countriesFile.write(QJsonDocument(doc).toJson(QJsonDocument::Indented));
+		countriesFile.flush();
+		countriesFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\" for writing.").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("regions.json"));
+	QFile regionsFile(fPath);
+	if(regionsFile.open(QFile::WriteOnly)) {
+		QJsonObject doc;
+		doc["regions"] = regions.saveToJSON();
+		regionsFile.write(QJsonDocument(doc).toJson(QJsonDocument::Indented));
+		regionsFile.flush();
+		regionsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\" for writing.").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("areas.json"));
+	QFile areasFile(fPath);
+	if(areasFile.open(QFile::WriteOnly)) {
+		QJsonObject doc;
+		doc["areas"] = areas.saveToJSON();
+		areasFile.write(QJsonDocument(doc).toJson(QJsonDocument::Indented));
+		areasFile.flush();
+		areasFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\" for writing.").arg(fPath));
+		return;
+	}
+	fPath = direct.absoluteFilePath(QStringLiteral("pops.json"));
+	QFile popsFile(fPath);
+	if(popsFile.open(QFile::WriteOnly)) {
+		QJsonObject doc;
+		doc["pops"] = pops.saveToJSON();
+		popsFile.write(QJsonDocument(doc).toJson(QJsonDocument::Indented));
+		popsFile.flush();
+		popsFile.close();
+	} else {
+		QMessageBox::critical(this,tr("Error!"),tr("Could not open the file \"%1\" for writing.").arg(fPath));
+		return;
+	}
+	QMessageBox::information(this,tr("Success!"),tr("Successfully saved all the files!"));
+}
+
+void MainWindow::on_purgePops_clicked()
+{
+	pops.clear();
+}
+
+void MainWindow::on_purgeRaces_clicked()
+{
+	races.clear();
+}
+
+void MainWindow::on_purgeReligions_clicked()
+{
+	religions.clear();
+}
+
+void MainWindow::on_purgeAgeGrps_clicked()
+{
+	agegroupz.clear();
+}
+
+void MainWindow::on_purgeOccupations_clicked()
+{
+	occupations.clear();
+}
+
+void MainWindow::on_purgeCountries_clicked()
+{
+	countries.clear();
+}
+
+void MainWindow::on_purgeRegions_clicked()
+{
+	regions.clear();
+}
+
+void MainWindow::on_purgeAreas_clicked()
+{
+	areas.clear();
 }

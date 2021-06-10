@@ -61,6 +61,26 @@ private slots:
 
 	void on_areasLoadFromJSON_clicked();
 
+	void on_loadAllBtn_clicked();
+
+	void on_saveAllBtn_clicked();
+
+	void on_purgePops_clicked();
+
+	void on_purgeRaces_clicked();
+
+	void on_purgeReligions_clicked();
+
+	void on_purgeAgeGrps_clicked();
+
+	void on_purgeOccupations_clicked();
+
+	void on_purgeCountries_clicked();
+
+	void on_purgeRegions_clicked();
+
+	void on_purgeAreas_clicked();
+
 private:
 	Ui::MainWindow *ui;
 	AgeGroupTable agegroupz;
