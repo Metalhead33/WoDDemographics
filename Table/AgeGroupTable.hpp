@@ -45,6 +45,7 @@ public:
 	void loadFromJSON(const QJsonArray& json);
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
+	void consolidate();
 
 signals:
 	void removingAgeGroup(Pointer ptr);

@@ -47,6 +47,7 @@ public:
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
 
+	void consolidate();
 public slots:
 	void removeAllPops(void);
 	void onAreaRemoved(QSharedPointer<Area> ptr);

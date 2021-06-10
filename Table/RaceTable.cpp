@@ -162,3 +162,12 @@ QJsonArray RaceTable::saveToJSON() const
 	return tmp;
 }
 
+void RaceTable::consolidate()
+{
+	int row = 1;
+	for(auto& it : entries) {
+		it->setRaceID(row);
+		++row;
+	}
+}
+

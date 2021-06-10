@@ -153,3 +153,12 @@ QJsonArray AgeGroupTable::saveToJSON() const
 	saveToJSON(tmp);
 	return tmp;
 }
+
+void AgeGroupTable::consolidate()
+{
+	int row = 1;
+	for(auto& it : entries) {
+		it->setAgeGroupID(row);
+		++row;
+	}
+}

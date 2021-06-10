@@ -77,6 +77,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_ageGroupsSave2JSON_clicked()
 {
+	if(ui->consolidateBox->isChecked()) agegroupz.consolidate();
 	QJsonObject doc;
 	doc["agegroups"] = agegroupz.saveToJSON();
 	Util::saveJson(QJsonDocument(doc));
@@ -92,6 +93,7 @@ void MainWindow::on_ageGroupsLoadFromJSON_clicked()
 
 void MainWindow::on_popsSave2JSON_clicked()
 {
+	if(ui->consolidateBox->isChecked()) pops.consolidate();
 	QJsonObject doc;
 	doc["pops"] = pops.saveToJSON();
 	Util::saveJson(QJsonDocument(doc));
@@ -107,6 +109,7 @@ void MainWindow::on_popsLoadFromJSON_clicked()
 
 void MainWindow::on_racesSave2JSON_clicked()
 {
+	if(ui->consolidateBox->isChecked()) races.consolidate();
 	QJsonObject doc;
 	doc["races"] = races.saveToJSON();
 	Util::saveJson(QJsonDocument(doc));
@@ -122,6 +125,7 @@ void MainWindow::on_racesLoadFromJSON_clicked()
 
 void MainWindow::on_religionsSave2JSON_clicked()
 {
+	if(ui->consolidateBox->isChecked()) religions.consolidate();
 	QJsonObject doc;
 	doc["religions"] = religions.saveToJSON();
 	Util::saveJson(QJsonDocument(doc));
@@ -137,6 +141,7 @@ void MainWindow::on_reigionsLoadFromJSON_clicked()
 
 void MainWindow::on_occupationsSave2JSON_clicked()
 {
+	if(ui->consolidateBox->isChecked()) occupations.consolidate();
 	QJsonObject doc;
 	doc["occupations"] = occupations.saveToJSON();
 	Util::saveJson(QJsonDocument(doc));
@@ -152,6 +157,7 @@ void MainWindow::on_occupationsLoadFromJSON_clicked()
 
 void MainWindow::on_countriesSave2JSON_clicked()
 {
+	if(ui->consolidateBox->isChecked()) countries.consolidate();
 	QJsonObject doc;
 	doc["countries"] = countries.saveToJSON();
 	Util::saveJson(QJsonDocument(doc));
@@ -167,6 +173,7 @@ void MainWindow::on_countriesLoadFromJSON_clicked()
 
 void MainWindow::on_regionsSave2JSON_clicked()
 {
+	if(ui->consolidateBox->isChecked()) regions.consolidate();
 	QJsonObject doc;
 	doc["regions"] = regions.saveToJSON();
 	Util::saveJson(QJsonDocument(doc));
@@ -182,6 +189,7 @@ void MainWindow::on_regionsLoadFromJSON_clicked()
 
 void MainWindow::on_areasSave2JSON_clicked()
 {
+	if(ui->consolidateBox->isChecked()) areas.consolidate();
 	QJsonObject doc;
 	doc["areas"] = areas.saveToJSON();
 	Util::saveJson(QJsonDocument(doc));
@@ -307,6 +315,16 @@ void MainWindow::on_saveAllBtn_clicked()
 {
 	QString path = QFileDialog::getExistingDirectory(this,tr("Select directory to export demographics data to!"),QString());
 	if(path.isEmpty()) return;
+	if(ui->consolidateBox->isChecked()) {
+		agegroupz.consolidate();
+		races.consolidate();
+		religions.consolidate();
+		occupations.consolidate();
+		countries.consolidate();
+		regions.consolidate();
+		areas.consolidate();
+		pops.consolidate();
+	}
 	QDir direct(path);
 	QString fPath = direct.absoluteFilePath(QStringLiteral("occupations.json"));
 	QFile occupationsFile(fPath);

@@ -148,3 +148,12 @@ QJsonArray OccupationTable::saveToJSON() const
 	saveToJSON(tmp);
 	return tmp;
 }
+
+void OccupationTable::consolidate()
+{
+	int row = 1;
+	for(auto& it : entries) {
+		it->setOccupationID(row);
+		++row;
+	}
+}

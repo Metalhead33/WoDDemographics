@@ -146,4 +146,13 @@ QJsonArray ReligionTable::saveToJSON() const
 	return tmp;
 }
 
+void ReligionTable::consolidate()
+{
+	int row = 1;
+	for(auto& it : entries) {
+		it->setReligionID(row);
+		++row;
+	}
+}
+
 

@@ -44,6 +44,7 @@ public:
 	void loadFromJSON(const QJsonArray& json, const RegionResolver& resolv);
 	void saveToJSON(QJsonArray& json) const;
 	QJsonArray saveToJSON(void) const;
+	void consolidate();
 public slots:
 	void onRegionRemoved(QSharedPointer<Region> ptr);
 	void removeAllAreas(void);

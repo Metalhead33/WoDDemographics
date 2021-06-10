@@ -196,6 +196,15 @@ QJsonArray AreaTable::saveToJSON() const
 	return tmp;
 }
 
+void AreaTable::consolidate()
+{
+	int row = 1;
+	for(auto& it : entries) {
+		it->setAreaID(row);
+		++row;
+	}
+}
+
 void AreaTable::onRegionRemoved(QSharedPointer<Region> ptr)
 {
 	int i = 0;

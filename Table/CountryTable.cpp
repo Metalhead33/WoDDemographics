@@ -148,3 +148,12 @@ QJsonArray CountryTable::saveToJSON() const
 	saveToJSON(tmp);
 	return tmp;
 }
+
+void CountryTable::consolidate()
+{
+	int row = 1;
+	for(auto& it : entries) {
+		it->setCountryID(row);
+		++row;
+	}
+}

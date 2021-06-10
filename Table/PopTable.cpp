@@ -291,6 +291,25 @@ QJsonArray PopTable::saveToJSON() const
 	return tmp;
 }
 
+void PopTable::consolidate()
+{
+	int row = 0;
+	for(auto it = std::begin(entries); it != std::end(entries);) {
+		if(it->get()->getQuantity() <= 0) {
+			beginRemoveRows(QModelIndex(), row, row);
+			it = entries.erase(it);
+			endRemoveRows();
+			--row;
+		} else ++it;
+		++row;
+	}
+	row = 1;
+	for(auto& it : entries) {
+		it->setPopId(row);
+		++row;
+	}
+}
+
 void PopTable::removeAllPops()
 {
 	clear();

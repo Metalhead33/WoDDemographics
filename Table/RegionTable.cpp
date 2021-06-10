@@ -184,6 +184,15 @@ QJsonArray RegionTable::saveToJSON() const
 	return tmp;
 }
 
+void RegionTable::consolidate()
+{
+	int row = 1;
+	for(auto& it : entries) {
+		it->setRegionID(row);
+		++row;
+	}
+}
+
 void RegionTable::onCountryRemoved(QSharedPointer<Country> ptr)
 {
 	int i = 0;
