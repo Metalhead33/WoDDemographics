@@ -32,14 +32,25 @@ MainWindow::MainWindow(QWidget *parent) :
 	QObject::connect(&countries,&CountryTable::removingCountry,&regions,&RegionTable::onCountryRemoved);
 	QObject::connect(&countries,&CountryTable::removingAllCountries,&regions,&RegionTable::removeAllRegions);
 	ui->setupUi(this);
-	ui->agegroupsTable->setModel(&agegroupz);
-	ui->areasTable->setModel(&areas);
-	ui->countriesTable->setModel(&countries);
-	ui->popsTable->setModel(&pops);
-	ui->racesTable->setModel(&races);
-	ui->religionsTable->setModel(&religions);
-	ui->regionsTable->setModel(&regions);
-	ui->occupationsTable->setModel(&occupations);
+
+	proxies[0].setSourceModel(&agegroupz);
+	proxies[1].setSourceModel(&areas);
+	proxies[2].setSourceModel(&countries);
+	proxies[3].setSourceModel(&pops);
+	proxies[4].setSourceModel(&races);
+	proxies[5].setSourceModel(&religions);
+	proxies[6].setSourceModel(&regions);
+	proxies[7].setSourceModel(&occupations);
+
+
+	ui->agegroupsTable->setModel(&proxies[0]);
+	ui->areasTable->setModel(&proxies[1]);
+	ui->countriesTable->setModel(&proxies[2]);
+	ui->popsTable->setModel(&proxies[3]);
+	ui->racesTable->setModel(&proxies[4]);
+	ui->religionsTable->setModel(&proxies[5]);
+	ui->regionsTable->setModel(&proxies[6]);
+	ui->occupationsTable->setModel(&proxies[7]);
 
 	ui->regionsTable->setItemDelegateForColumn(1,&countriesDelegate); // Regions -> Countries foreign key
 	ui->areasTable->setItemDelegateForColumn(1,&checkboxDelegate); // Checkbox for rural

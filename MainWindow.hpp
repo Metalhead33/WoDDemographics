@@ -13,7 +13,8 @@
 #include "ComboBoxIdentifierDelegate.hpp"
 #include "SpinboxDelegate.hpp"
 #include "CheckboxDelegate.hpp"
-
+#include <QSortFilterProxyModel>
+#include <array>
 
 namespace Ui {
 class MainWindow;
@@ -70,6 +71,7 @@ private:
 	RegionTable regions;
 	ReligionTable religions;
 	OccupationTable occupations;
+	std::array<QSortFilterProxyModel,8> proxies;
 
 	ComboBoxIdentifierDelegate ageGroupsDelegate;
 	ComboBoxIdentifierDelegate areasDelegate;

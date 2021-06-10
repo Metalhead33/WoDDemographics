@@ -28,7 +28,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="currentIndex">
-           <number>7</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="pops">
            <attribute name="title">
@@ -59,7 +59,11 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QTableView" name="popsTable"/>
+             <widget class="QTableView" name="popsTable">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -92,7 +96,11 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QTableView" name="racesTable"/>
+             <widget class="QTableView" name="racesTable">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -125,7 +133,11 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QTableView" name="religionsTable"/>
+             <widget class="QTableView" name="religionsTable">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -158,7 +170,11 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QTableView" name="agegroupsTable"/>
+             <widget class="QTableView" name="agegroupsTable">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -191,7 +207,11 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QTableView" name="occupationsTable"/>
+             <widget class="QTableView" name="occupationsTable">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -224,7 +244,11 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QTableView" name="countriesTable"/>
+             <widget class="QTableView" name="countriesTable">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -257,7 +281,11 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QTableView" name="regionsTable"/>
+             <widget class="QTableView" name="regionsTable">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -290,7 +318,11 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QTableView" name="areasTable"/>
+             <widget class="QTableView" name="areasTable">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
