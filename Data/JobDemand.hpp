@@ -30,13 +30,13 @@ public:
 
 private:
 	Q_PROPERTY(GendersAllowed gendersAllowed READ getGendersAllowed WRITE setGendersAllowed)
-	Q_PROPERTY(int jobOpenings READ getJobOpenings WRITE setJobOpenings)
+	Q_PROPERTY(qint64 jobOpenings READ getJobOpenings WRITE setJobOpenings)
 	GendersAllowed gendersAllowed;
 	RaceSet allowedRaces; // Empty set assumed to be DONT_CARE
 	ReligionSet allowedReligions; // Empty set assumed to be DONT_CARE
 	AgeGroupSet allowedAgeGroups; // Empty set assumed to be DONT_CARE
 	QSharedPointer<Occupation> jobOutput;
-	int jobOpenings;
+	qint64 jobOpenings;
 
 	void getRacesFromJson(const QJsonArray& json, const RaceResolver& resolv);
 	void getReligionsFromJson(const QJsonArray& json, const ReligionResolver& resolv);
@@ -78,7 +78,7 @@ public:
 	QSharedPointer<Occupation> getJobOutput() const;
 	void setJobOutput(const QSharedPointer<Occupation> &value);
 	bool doesPopMeetRequirements(const Pop& pop) const;
-	Pop splitPopIfReqsAreMet(Pop& pop, int maxJobTakers);
+	Pop splitPopIfReqsAreMet(Pop& pop, qint64 maxJobTakers);
 
 signals:
 

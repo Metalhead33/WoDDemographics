@@ -12,7 +12,7 @@ class PopDistributionTable : public QAbstractTableModel
 
 public:
 	typedef QPair<double,double> GenderPercentage;
-	typedef QPair<int,int> GenderDistribution;
+	typedef QPair<qint64,qint64> GenderDistribution;
 	typedef QPair<QSharedPointer<AgeGroup>,GenderPercentage> AgenGenderPercentage;
 	typedef QPair<QSharedPointer<AgeGroup>,GenderDistribution> AgenGenderDistribution;
 	typedef QList<AgenGenderPercentage> PercentageList;
@@ -38,7 +38,7 @@ public:
 
 	Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-	void toDistributions(DistributionList& distributions, int totalNumber) const;
+	void toDistributions(DistributionList& distributions, qint64 totalNumber) const;
 	DistributionList toDistributions(int totalNumber) const;
 
 private:

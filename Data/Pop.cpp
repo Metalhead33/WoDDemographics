@@ -10,12 +10,12 @@ void Pop::setPopId(int value)
 	popId = value;
 }
 
-int Pop::getQuantity() const
+qint64 Pop::getQuantity() const
 {
 	return quantity;
 }
 
-void Pop::setQuantity(int value)
+void Pop::setQuantity(qint64 value)
 {
 	quantity = value;
 }
@@ -158,7 +158,7 @@ void Pop::setAgegroup(const QSharedPointer<AgeGroup> &value)
 	agegroup = value;
 }
 
-Pop Pop::splitOff(int toSplit)
+Pop Pop::splitOff(qint64 toSplit)
 {
 	const int toReduce = std::min(toSplit,quantity);
 	Pop tmp(*this);
@@ -191,7 +191,7 @@ Pop::Pop(const QJsonObject &json, const AreaResolver &areaResolv, const RaceReso
 	this->female = json["female"].toBool(false);
 }
 
-Pop::Pop(int id, int quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation, QSharedPointer<AgeGroup> agegroup, bool female) : QObject(nullptr),
+Pop::Pop(int id, qint64 quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation, QSharedPointer<AgeGroup> agegroup, bool female) : QObject(nullptr),
 	popId(id), quantity(quantity), area(area), race(race), religion(religion), occupation(occupation), agegroup(agegroup), female(female)
 {
 

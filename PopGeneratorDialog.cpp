@@ -28,7 +28,7 @@ void PopGeneratorDialog::on_addPops_clicked()
 	const QSharedPointer<Religion> religion = ui->religionIn->model()->data(ui->religionIn->model()->index(ui->religionIn->currentIndex(),0),MH::PointerRole).value<QSharedPointer<Religion>>();
 	const QSharedPointer<Race> race = ui->raceIn->model()->data(ui->raceIn->model()->index(ui->raceIn->currentIndex(),0),MH::PointerRole).value<QSharedPointer<Race>>();
 	const int quantity = ui->quantityIn->value();
-	auto distributions = distributionTable.toDistributions(quantity);
+	const auto distributions = distributionTable.toDistributions(quantity);
 	if(quantity && area && religion && race) {
 		for(const auto& it : distributions) {
 			popTable.insertPop(it.second.first,area,race,religion,nullptr,it.first,false);

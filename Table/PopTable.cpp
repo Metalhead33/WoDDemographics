@@ -93,7 +93,7 @@ QVariant PopTable::data(const QModelIndex &index, int role) const
 		case 5:
 			return QVariant::fromValue(entries[index.row()]->getAgegroup());
 		case 6:
-			return QVariant::fromValue(entries[index.row()] );
+			return QVariant::fromValue(entries[index.row()]);
 		default:
 			return QVariant();
 		}
@@ -127,7 +127,7 @@ QVariant PopTable::data(const QModelIndex &index, int role) const
 				);
 			//return QVariant::fromValue(entries[index.row()]->getAgegroup()->getAgeGroupName());
 		case 6:
-			//return QVariant::fromValue(entries[index.row()]->getFemale());
+			return entries[index.row()]->getFemale();
 		default:
 			return QVariant();
 		}
@@ -227,7 +227,7 @@ bool PopTable::insertRows(int row, int count, const QModelIndex &parent)
 	return true;
 }
 
-bool PopTable::insertPop(int quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation,
+bool PopTable::insertPop(qint64 quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation,
 						 QSharedPointer<AgeGroup> agegroup, bool female)
 {
 	if(!quantity) return false;

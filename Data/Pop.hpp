@@ -23,7 +23,7 @@ class Pop : public QObject
 	Q_PROPERTY(bool female READ getFemale WRITE setFemale)
 private:
 	int popId;
-	int quantity;
+	qint64 quantity;
 	QSharedPointer<Area> area;
 	QSharedPointer<Race> race;
 	QSharedPointer<Religion> religion;
@@ -34,15 +34,15 @@ public:
 	explicit Pop(QObject *parent = nullptr);
 	explicit Pop(int rowCnt, QObject *parent = nullptr);
 	explicit Pop(const QJsonObject& json, const AreaResolver& areaResolv, const RaceResolver& raceResolv, const ReligionResolver& religionResolv, const OccupationResolver& occupationResolv, const AgeGroupResolver& agegroupResolv, QObject *parent = nullptr);
-	explicit Pop(int id, int quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation,
+	explicit Pop(int id, qint64 quantity, QSharedPointer<Area> area, QSharedPointer<Race> race, QSharedPointer<Religion> religion, QSharedPointer<Occupation> occupation,
 				 QSharedPointer<AgeGroup> agegroup, bool female);
 	Pop(const Pop& cpy);
 	void operator=(const Pop& cpy);
 	int getPopId() const;
 	void setPopId(int value);
 
-	int getQuantity() const;
-	void setQuantity(int value);
+	qint64 getQuantity() const;
+	void setQuantity(qint64 value);
 
 	int getAreaID() const;
 	int getRaceId() const;
@@ -73,7 +73,7 @@ public:
 	QSharedPointer<AgeGroup> getAgegroup() const;
 	void setAgegroup(const QSharedPointer<AgeGroup> &value);
 
-	Pop splitOff(int toSplit);
+	Pop splitOff(qint64 toSplit);
 
 signals:
 

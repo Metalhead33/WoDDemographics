@@ -91,12 +91,12 @@ Qt::ItemFlags PopDistributionTable::flags(const QModelIndex &index) const
 	return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled; // FIXME: Implement me!
 }
 
-void PopDistributionTable::toDistributions(PopDistributionTable::DistributionList &distributions, int totalNumber) const
+void PopDistributionTable::toDistributions(PopDistributionTable::DistributionList &distributions, qint64 totalNumber) const
 {
 	for(const auto& it : percentages) {
 		const double multipliedM = 0.01 * it.second.first * double(totalNumber);
 		const double multipliedF = 0.01 * it.second.second * double(totalNumber);
-		AgenGenderDistribution tmp(it.first,GenderDistribution(int(multipliedM),int(multipliedF)));
+		AgenGenderDistribution tmp(it.first,GenderDistribution(qint64(multipliedM),qint64(multipliedF)));
 		distributions.push_back(tmp);
 	}
 }

@@ -81,7 +81,7 @@ bool JobDemand::doesPopMeetRequirements(const Pop &pop) const
 	return (isRaceGood && isReligionGood && isAgeGroupGood && isGenderGood);
 }
 
-Pop JobDemand::splitPopIfReqsAreMet(Pop &pop, int maxJobTakers)
+Pop JobDemand::splitPopIfReqsAreMet(Pop &pop, qint64 maxJobTakers)
 {
 	if(jobOpenings && pop.getQuantity() && doesPopMeetRequirements(pop)) {
 		const int toReduce = std::min(pop.getQuantity(),std::min(jobOpenings,maxJobTakers));
